@@ -1,23 +1,35 @@
-import React, {useState} from "react";
+import React from "react";
 import MedicalHistory from "./MedicalHistory";
+import {useParams} from "react-router-dom";
+import { Col, Container, ListGroup, Row} from "react-bootstrap";
 
-const PatientDetails = ({ selectedPatient,appointmentsData }) => {
-    const [showMedicalHistory, setShowMedicalHistory] = useState(false);
-
+const PatientDetails = ({ patientsData,appointmentsData }) => {
+    // const [showMedicalHistory, setShowMedicalHistory] = useState(false);
+    let {id} = useParams();
+    console.log(id);
+    let selectedPatient = patientsData.filter(patient =>
+        patient.id === Number(id)
+    )[0];
+    console.log(selectedPatient);
     return (
-        <div>
-            <h2>{selectedPatient.name}'s Full Profile</h2>
-            {/* Other patient details */}
-            {/* ... */}
-
-            {/* Button to toggle medical history */}
-            <button onClick={() => setShowMedicalHistory(!showMedicalHistory)}>
-                {showMedicalHistory ? 'Hide Medical History' : 'Show Medical History'}
-            </button>
-
-            {/* Show medical history if the button is clicked */}
-            {showMedicalHistory && <MedicalHistory selectedPatient={selectedPatient} appointmentsData={appointmentsData} />}
-        </div>
+        <Container>
+            <Row>
+                <Col md={3}>
+                    <h2>Profile</h2>
+                    <ListGroup variant="flush">
+                        <ListGroup.Item>
+                            <strong>Name:</strong> {selectedPatient.name}<br/>
+                            <strong>Age:</strong> {selectedPatient.age}<br/>
+                            <strong>Weight:</strong> {selectedPatient.weight}<br/>
+                            <strong>Height:</strong> {selectedPatient.height}<br/>
+                        </ListGroup.Item>
+                    </ListGroup>
+                </Col>
+                <Col md={9}>
+                    <MedicalHistory patientData={patientsData} selectedPatient={selectedPatient} appointmentsData={appointmentsData} />
+                </Col>
+            </Row>
+        </Container>
     );
 };
 export default PatientDetails;

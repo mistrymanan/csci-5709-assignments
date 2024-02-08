@@ -1,15 +1,27 @@
 import React from "react";
+import {useParams} from "react-router-dom";
+import {Container, ListGroup} from "react-bootstrap";
 
-const MedicationDetails = ({ medications }) => {
+const MedicationDetails = ({ appointmentsData }) => {
+
+    // medications={appointmentsData.medications}
+    let {id,appointmentId} = useParams();
+    console.log(id);
+    let medications = appointmentsData.filter(appointment =>
+        appointment.patientId === Number(id) && appointment.id === Number(appointmentId)
+    )[0].medications;
+
+    // console.log(selectedPatient);
+
     return (
-        <div>
+        <Container>
             <h3>Medication Details</h3>
-            <ul>
+            <ListGroup>
                 {medications.map((medication, index) => (
-                    <li key={index}>{medication}</li>
+                    <ListGroup.Item key={index}>{medication}</ListGroup.Item>
                 ))}
-            </ul>
-        </div>
+            </ListGroup>
+        </Container>
     );
 };
 export default MedicationDetails;

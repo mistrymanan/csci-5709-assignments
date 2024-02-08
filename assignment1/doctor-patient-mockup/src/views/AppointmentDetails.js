@@ -1,27 +1,29 @@
-import React, {useState} from "react";
-import MedicationDetails from "./MedicationDetails";
+import React from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import {Button, Container} from "react-bootstrap";
 
-const AppointmentDetails = ({ appointment, onUpdate, onSave }) => {
-    const [showMedication, setShowMedication] = useState(false);
+const AppointmentDetails = ({ appointment}) => {
+    let {id} = useParams();
+    console.log(id);
+    // let selectedPatient = patientData.filter(patient =>
+    //     patient.id === Number(id)
+    // )[0];
+    // console.log(selectedPatient);
+    const navigate = useNavigate();
 
+    const handleShowMedications = () => {
+        navigate(`/patient/${id}/medicalhistories/appointments/${appointment.id}/medications`);
+    };
     return (
-        <div>
+        <Container>
             <h2>Appointment Details</h2>
             <p>Date: {appointment.date}</p>
             <p>Time: {appointment.time}</p>
 
-            {/* Button to toggle medication details */}
-            <button onClick={() => setShowMedication(!showMedication)}>
-                {showMedication ? 'Hide Medication' : 'Show Medication'}
-            </button>
-
-            {/* Show medication details if the button is clicked */}
-            {showMedication && <MedicationDetails medications={appointment.medications} />}
-
-            {/* Update and Save buttons */}
-            <button onClick={onUpdate}>Update</button>
-            <button onClick={onSave}>Save</button>
-        </div>
+            <Button variant="primary" onClick={() => handleShowMedications()}>
+                Prescriptions
+            </Button>
+        </Container>
     );
 };
 export default AppointmentDetails;

@@ -1,11 +1,21 @@
 import AppointmentDetails from "./AppointmentDetails";
 import React from "react";
+import {useParams} from "react-router-dom";
+import {Container, Table} from "react-bootstrap";
 
-const AppointmentsGrid = ({appointmentsData}) => {
+const AppointmentsGrid = ({patientsData,appointmentsData}) => {
+
+    let {id} = useParams();
+    console.log(id);
+    let selectedPatient = patientsData.filter(patient =>
+        patient.id === Number(id)
+    )[0];
+    console.log(selectedPatient);
+
     return (
-        <div>
+        <Container>
             <h2>Appointments</h2>
-            <table>
+            <Table striped bordered hover>
                 <thead>
                 <tr>
                     <th>#</th>
@@ -15,20 +25,22 @@ const AppointmentsGrid = ({appointmentsData}) => {
                 </tr>
                 </thead>
                 <tbody>
-                {appointmentsData.map(appointment => (
+                {appointmentsData.map((appointment) => (
+                    appointment.patientId == id &&
                     <tr key={appointment.id}>
                         <td>{appointment.id}</td>
                         <td>{appointment.date}</td>
                         <td>{appointment.time}</td>
                         <td>
-                            {/* Link to view appointment details */}
-                            <AppointmentDetails appointment={appointment} onUpdate={() => console.log('Update')} onSave={() => console.log('Save')} />
+                            <AppointmentDetails
+                                appointment={appointment}
+                            />
                         </td>
                     </tr>
                 ))}
                 </tbody>
-            </table>
-        </div>
+            </Table>
+        </Container>
     );
 };
 export default AppointmentsGrid;
