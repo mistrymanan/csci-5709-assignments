@@ -26,7 +26,7 @@ const AppointmentsGrid = ({patientsData,appointmentsData}) => {
                 </thead>
                 <tbody>
                 {appointmentsData.map((appointment) => (
-                    appointment.patientId == id &&
+                    appointment.patientId === id &&
                     <tr key={appointment.id}>
                         <td>{appointment.id}</td>
                         <td>{appointment.date}</td>
